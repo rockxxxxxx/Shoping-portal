@@ -1,20 +1,18 @@
-.Navbar{
-    background-color: black;
-    height: 3rem;
-    margin: auto;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    margin-top: -10px;
-   
+.Navbar {
+  background-color: black;
+  height: 3rem;
+  margin: auto;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  margin-top: -10px;
 }
-.nav-links-container{
-   display: inline-block;
-   margin:10px 40px;
-   font-size: large;
-   font-weight: 700;
+.nav-links-container {
+  display: inline-block;
+  margin: 10px 40px;
+  font-size: large;
+  font-weight: 700;
 }
- .icon{
-    display: inline-block;
-    
+.icon {
+  display: inline-block;
 }
