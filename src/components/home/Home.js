@@ -1,45 +1,50 @@
-import React from "react";
-import Directory from "../Directory/Directory";
+import React from 'react'
+import './Home.css'
 
-export default function Home() {
-  const productsArr = [
-    {
-      id: 1,
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-    },
-
-    {
-      id: 2,
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-    },
-
-    {
-      id: 3,
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-    },
-
-    {
-      id: 4,
-      title: "Blue Color",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
-    },
-  ];
+export default function Home () {
   return (
+    <section id="tours" class='container'>
+              <button class="latest-album">Get our Latest Album</button>
+        <button class="play-btn">►</button>
+    <h2>TOURS</h2>
     <div>
-       
-      <Directory categories={productsArr } />
-      
+        <div class="tour-item">
+            <span class="tour-date">JUL16</span>
+            <span class="tour-place">DETROIT, MI</span>
+            <span class="tour-spec-place">DTE ENERGY MUSIC THEATRE</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
+        <div class="tour-item">
+            <span class="tour-date">JUL19</span>
+            <span class="tour-place">TORONTO,ON</span>
+            <span class="tour-spec-place">BUDWEISER STAGE</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
+        <div class="tour-item">
+            <span class="tour-date">JUL 22</span>
+            <span class="tour-place"> BRISTOW, VA</span>
+            <span class="tour-spec-place">JIGGY LUBE LIVE</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
+        <div class="tour-item">
+            <span class="tour-date">JUL 29</span>
+            <span class="tour-place">PHOENIX, AZ</span>
+            <span class="tour-spec-place"> AK-CHIN PAVILION</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
+        <div class="tour-item">
+            <span class="tour-date">AUG 2</span>
+            <span class="tour-place">LAS VEGAS, NV</span>
+            <span class="tour-spec-place">T-MOBILE ARENA</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
+        <div class="tour-item">
+            <span class="tour-date">AUG 7</span>
+            <span class="tour-place">CONCORD, CA</span>
+            <span class="tour-spec-place"> CONCORD PAVILION</span>
+            <button class="buy-btn">BUY TICKETS</button>
+        </div>
     </div>
-  );
+</section>
+  )
 }

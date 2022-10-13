@@ -8,37 +8,58 @@ import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 
 export default function Navbar() {
-  const {isCartOpen,setIsCartOpen} = useContext(CarContext)
-  const {cartCount} = useContext(CarContext)
-  const mangeCartDropdwn = ()=>{
-    setIsCartOpen(!isCartOpen)
-  }
+  const { isCartOpen, setIsCartOpen } = useContext(CarContext);
+  const { cartCount } = useContext(CarContext);
+  const mangeCartDropdwn = () => {
+    setIsCartOpen(!isCartOpen);
+  };
   return (
     <>
       <div className="Navbar">
         <div className="nav-links-container">
-          <NavLink className="logo-container" to="/">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "lactive-class" : "not-active-class"
+            }
+            to="/home"
+          >
             HOME
           </NavLink>
         </div>
         <div className="nav-links-container">
-          <NavLink className="logo-container" to="/store">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "lactive-class" : "not-active-class"
+            }
+            to="/store"
+          >
             STORE
           </NavLink>
         </div>
         <div className="nav-links-container">
-          <NavLink className="logo-container" to="/about">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "lactive-class" : "not-active-class"
+            }
+            to="/about"
+          >
             ABOUT
           </NavLink>
         </div>
         <div className="icon">
-          <i class="corner big  inverted shopping cart icon" onClick={mangeCartDropdwn} style={{cursor: "pointer"}}>{cartCount}</i>
+          <i
+            class="corner big  inverted shopping cart icon"
+            onClick={mangeCartDropdwn}
+            style={{ cursor: "pointer" }}
+          >
+            {cartCount}
+          </i>
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
-      <Header/>
+      <Header />
       <Outlet />
-      <Footer/>
+      <Footer />
     </>
   );
 }
