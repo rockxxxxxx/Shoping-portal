@@ -16,3 +16,8 @@
 .icon {
   display: inline-block;
 }
+
+.icon a.active{
+  padding-bottom: 0.25rem;
+  color: white;
+}

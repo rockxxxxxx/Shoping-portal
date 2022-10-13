@@ -1,7 +1,5 @@
 import React from "react";
-import Footer from "../footer/Footer";
 import Directory from "../Directory/Directory";
-import Header from "../header/Header";
 
 export default function Home() {
   const productsArr = [
@@ -39,9 +37,9 @@ export default function Home() {
   ];
   return (
     <div>
-        <Header/>
+       
       <Directory categories={productsArr } />
-      <Footer />
+      
     </div>
   );
 }

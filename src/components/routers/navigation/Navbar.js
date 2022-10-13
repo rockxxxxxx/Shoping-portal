@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import CartDropdown from "../../cart-dropdown/CartDropdown";
 import { Outlet } from "react-router-dom";
 import { CarContext } from "../../context/cart-context";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
 
 export default function Navbar() {
   const {isCartOpen,setIsCartOpen} = useContext(CarContext)
@@ -15,26 +17,28 @@ export default function Navbar() {
     <>
       <div className="Navbar">
         <div className="nav-links-container">
-          <Link className="logo-container" to="/">
+          <NavLink className="logo-container" to="/">
             HOME
-          </Link>
+          </NavLink>
         </div>
         <div className="nav-links-container">
-          <Link className="logo-container" to="/store">
+          <NavLink className="logo-container" to="/store">
             STORE
-          </Link>
+          </NavLink>
         </div>
         <div className="nav-links-container">
-          <Link className="logo-container" to="/about">
+          <NavLink className="logo-container" to="/about">
             ABOUT
-          </Link>
+          </NavLink>
         </div>
         <div className="icon">
           <i class="corner big  inverted shopping cart icon" onClick={mangeCartDropdwn} style={{cursor: "pointer"}}>{cartCount}</i>
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
+      <Header/>
       <Outlet />
+      <Footer/>
     </>
   );
 }
