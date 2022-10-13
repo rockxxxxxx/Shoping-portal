@@ -7,6 +7,7 @@ import { CarContext } from "../../context/cart-context";
 
 export default function Navbar() {
   const {isCartOpen,setIsCartOpen} = useContext(CarContext)
+  const {cartCount} = useContext(CarContext)
   const mangeCartDropdwn = ()=>{
     setIsCartOpen(!isCartOpen)
   }
@@ -29,7 +30,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="icon">
-          <i class="corner big  inverted shopping cart icon" onClick={mangeCartDropdwn} style={{cursor: "pointer"}}>0</i>
+          <i class="corner big  inverted shopping cart icon" onClick={mangeCartDropdwn} style={{cursor: "pointer"}}>{cartCount}</i>
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
