@@ -46,6 +46,16 @@ export default function Navbar() {
             ABOUT
           </NavLink>
         </div>
+        <div className="nav-links-container">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "lactive-class" : "not-active-class"
+            }
+            to="/contact-us"
+          >
+            Contact Us
+          </NavLink>
+        </div>
         <div className="icon">
           <i
             class="corner big  inverted shopping cart icon"
