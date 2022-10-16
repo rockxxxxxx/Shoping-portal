@@ -38,6 +38,11 @@ export default function Login() {
     returnSecureToken: true,
   };
 
+  let formIsValid = false;
+  if (emailIsValid && passwordIsValid) {
+    formIsValid = true;
+  }
+
   function onSumbitHandler(event) {
     event.preventDefault();
     if (formIsValid) {
@@ -82,11 +87,6 @@ export default function Login() {
       emailBlurHandler();
       passwordBlurHandler();
     }
-  }
-
-  let formIsValid = false;
-  if (emailIsValid && passwordIsValid) {
-    formIsValid = true;
   }
 
   return (

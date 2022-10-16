@@ -74,9 +74,23 @@ export default function Navbar() {
           </>
         )}
         {isLoggedIn && (
-          <li className="logout" onClick={logoutHandler}>
-            LOGOUT
-          </li>
+          <>
+            (
+            <li className="logout" onClick={logoutHandler}>
+              LOGOUT
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active" : "not-active-class"
+                }
+                to="/changePassword"
+              >
+                CHANGE PASSWORD
+              </NavLink>
+            </li>
+            )
+          </>
         )}
 
         <li>
