@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import useFormValidation from "../hooks/useFormValidation";
 import { Link } from "react-router-dom";
+import Loader from "../loader/Loader";
+import Alert from "../components/alert/Alert";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length > 6;
 
 export default function Login() {
+  const [isLoader, setIsLoader] = useState(false);
+  const [alert, setAlert] = useState({ messgae: "", type: "" });
+
   //For Email Input
   const {
     value: enteredEmail,
@@ -34,8 +39,9 @@ export default function Login() {
   function onSumbitHandler(event) {
     event.preventDefault();
     if (formIsValid) {
+      setIsLoader(true);
       fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
         {
           method: "POST",
           body: JSON.stringify(formValue),
@@ -43,7 +49,30 @@ export default function Login() {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
+        .then((response) => {
+          setIsLoader(false);
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((data) => {
+              let errorMessage = "Email or password is wrong";
+              throw new Error(errorMessage);
+            });
+          }
+        })
+        .then((data) => {
+          setAlert({
+            messgae: data.idToken,
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          setAlert({
+            messgae: err.message,
+            type: "",
+          });
+        });
     } else {
       console.log("not valid");
       emailBlurHandler();
@@ -58,6 +87,7 @@ export default function Login() {
 
   return (
     <>
+      {alert.messgae && <Alert message={alert.messgae} type={alert.type} />}
       <form className="login" onSubmit={onSumbitHandler}>
         <div className="row">
           <div className="col-25">
@@ -99,10 +129,15 @@ export default function Login() {
             )}
           </div>
         </div>
-        <button>Submit</button>
+        {!isLoader && <button>Submit</button>}
+        {isLoader && (
+          <div className="loaderContainer">
+            <Loader />
+          </div>
+        )}
       </form>
       <h3>
-        Don't have an account! <Link to="/signup">Signin</Link>
+        Don't have an account! <Link to="/signup">Signup</Link>
       </h3>
     </>
   );
