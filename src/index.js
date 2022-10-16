@@ -4,15 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { CarContext, CartProvider } from "./components/context/cart-context";
+import { CartProvider } from "./components/context/cart-context";
+import { LoginProvider } from "./components/context/login-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <CartProvider>
-        <App />
-      </CartProvider>
+      <LoginProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </LoginProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

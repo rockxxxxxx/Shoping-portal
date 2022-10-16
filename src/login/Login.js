@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./login.css";
 import useFormValidation from "../hooks/useFormValidation";
 import { Link } from "react-router-dom";
 import Loader from "../loader/Loader";
 import Alert from "../components/alert/Alert";
+import { LoginContext } from "../components/context/login-context";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length > 6;
@@ -11,6 +12,7 @@ const passValidator = (value) => value.trim().length > 6;
 export default function Login() {
   const [isLoader, setIsLoader] = useState(false);
   const [alert, setAlert] = useState({ messgae: "", type: "" });
+  const { setIsLoggedIn, setJwtToken } = useContext(LoginContext);
 
   //For Email Input
   const {
@@ -52,6 +54,7 @@ export default function Login() {
       )
         .then((response) => {
           setIsLoader(false);
+          setIsLoggedIn(true);
           if (response.ok) {
             return response.json();
           } else {
@@ -62,6 +65,7 @@ export default function Login() {
           }
         })
         .then((data) => {
+          setJwtToken(data.idToken);
           setAlert({
             messgae: data.idToken,
             type: "success",
