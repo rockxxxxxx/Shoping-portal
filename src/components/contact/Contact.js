@@ -1,62 +1,129 @@
-import React, { useState } from "react";
-import Button from "../button/Button";
+import React from "react";
 import "./Contact.css";
+import useFormValidation from "../../hooks/useFormValidation";
+
+const nameValidator = (value) => value.trim() !== "";
+const emailValidator = (value) => value.includes("@");
+const messageValidator = (value) => value.trim().length > 20;
 
 export default function Contact() {
-  const formData = {
-    name: "",
-    email: "",
-    phn: "",
-  };
+  const {
+    value: enteredName,
+    isValueValid: nameIsValid,
+    hasError: nameInputHasError,
+    inputChangeHandler: nameChangeHandler,
+    blurHandler: nameBlurHandler,
+  } = useFormValidation(nameValidator);
 
-  const [formValue, setFormValue] = useState(formData);
-  const { name, email, phn } = formValue;
+  //For Email Input
+  const {
+    value: enteredEmail,
+    isValueValid: emailIsValid,
+    hasError: emailInputHasError,
+    inputChangeHandler: emailChangeHandler,
+    blurHandler: emailBlurHandler,
+  } = useFormValidation(emailValidator);
 
-  function submitHandler(event) {
-    event.preventDefault();
-    fetch("https://snap-battle-ae7cc-default-rtdb.firebaseio.com/user.json", {
-      method: "POST",
-      body: JSON.stringify(formValue),
-    });
+  //For Password
+  const {
+    value: enteredMessage,
+    isValueValid: messageIsValid,
+    hasError: messageInputHasError,
+    inputChangeHandler: messageChangeHandler,
+    blurHandler: messageBlurHandler,
+  } = useFormValidation(messageValidator);
+  let formIsValid = false;
+  if (nameIsValid && emailIsValid && messageIsValid) {
+    formIsValid = true;
   }
 
-  function handleOnChange(event) {
-    const { name, value } = event.target;
+  const formValue = {
+    email: enteredEmail,
+    message: enteredMessage,
+    name: enteredName,
+  };
 
-    setFormValue({ ...formValue, [name]: value });
-    console.log(formValue);
+  function onSumbitHandler(event) {
+    event.preventDefault();
+    if (formIsValid) {
+      fetch("https://snapbook-2ae40-default-rtdb.firebaseio.com/contact.json", {
+        method: "POST",
+        body: JSON.stringify(formValue),
+        heders: {
+          "Content-Type": "application/json",
+        },
+      });
+    } else {
+      console.log("not valid");
+      nameBlurHandler();
+      emailBlurHandler();
+      messageBlurHandler();
+    }
   }
 
   return (
-    <form onSubmit={submitHandler}>
-      <label htmlFor="fname">
-        <b>First Name</b>
-      </label>
-      <input type="text" name="name" value={name} onChange={handleOnChange} />
-
-      <br />
-      <label htmlFor="email">
-        <b>Email</b>
-      </label>
-      <input
-        type="email"
-        name="email"
-        value={email}
-        onChange={handleOnChange}
-      />
-      <br />
-      <label htmlFor="phn">
-        <b>Phone No</b>
-      </label>
-      <input
-        type="number"
-        name="phn"
-        value={phn}
-        onChange={handleOnChange}
-        style={{ marginBottom: "160px" }}
-      />
-      <br />
-      <Button name="Submit" />
+    <form onSubmit={onSumbitHandler}>
+      <div className="row">
+        <div className="col-25">
+          <label htmlFor="name">Name</label>
+        </div>
+        <div className="col-75">
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            onChange={nameChangeHandler}
+            onBlur={nameBlurHandler}
+            value={enteredName}
+          />
+          {nameInputHasError && (
+            <p style={{ color: "red", textAlign: "left" }}>
+              Entered a valid name
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-25">
+          <label htmlFor="email">Email</label>
+        </div>
+        <div className="col-75">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+            value={enteredEmail}
+          />
+          {emailInputHasError && (
+            <p style={{ color: "red", textAlign: "left" }}>
+              Please enter a valid email
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-25">
+          <label htmlFor="msg">Your Message</label>
+        </div>
+        <div className="col-75">
+          <input
+            type="text"
+            name="message"
+            placeholder="Enter your message"
+            onChange={messageChangeHandler}
+            onBlur={messageBlurHandler}
+            value={enteredMessage}
+          />
+          {messageInputHasError && (
+            <p style={{ color: "red", textAlign: "left" }}>
+              Please enter a valid message
+            </p>
+          )}
+        </div>
+      </div>
+      <button>Submit</button>
     </form>
   );
 }

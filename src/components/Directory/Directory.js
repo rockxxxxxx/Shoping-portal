@@ -8,11 +8,10 @@ export default function Directory({ categories }) {
       {categories.map((category) => {
         return (
           <div>
-        <Category key ={category.id} category={category} />
-        </div>
+            <Category key={category.id} category={category} />
+          </div>
         );
       })}
-    
     </div>
   );
 }

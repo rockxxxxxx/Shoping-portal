@@ -5,7 +5,7 @@
   text-align: center;
   font-family: arial;
   overflow: hidden;
-
+  color: black;
 }
 
 .price {
@@ -30,9 +30,8 @@
 }
 .card img {
   display: inline-block;
-  transition: transform .6s;   /* smoother zoom */
+  transition: transform 0.6s; /* smoother zoom */
   height: 200px;
-  
 }
 .card:hover img {
   transform: scale(1.1);

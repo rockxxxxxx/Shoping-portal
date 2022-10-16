@@ -1,72 +1,80 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
-import CartDropdown from "../../cart-dropdown/CartDropdown";
 import { Outlet } from "react-router-dom";
-import { CarContext } from "../../context/cart-context";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
+import CartIcon from "./CartIcon";
 
 export default function Navbar() {
-  const { isCartOpen, setIsCartOpen } = useContext(CarContext);
-  const { cartCount } = useContext(CarContext);
-  const mangeCartDropdwn = () => {
-    setIsCartOpen(!isCartOpen);
-  };
   return (
     <>
-      <div className="Navbar">
-        <div className="nav-links-container">
+      <ul class="topnav">
+        <li>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "lactive-class" : "not-active-class"
+              isActive ? "active" : "not-active-class"
             }
             to="/home"
           >
             HOME
           </NavLink>
-        </div>
-        <div className="nav-links-container">
+        </li>
+        <li>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "lactive-class" : "not-active-class"
+              isActive ? "active" : "not-active-class"
             }
             to="/store"
           >
             STORE
           </NavLink>
-        </div>
-        <div className="nav-links-container">
+        </li>
+        <li>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "lactive-class" : "not-active-class"
+              isActive ? "active" : "not-active-class"
             }
             to="/about"
           >
             ABOUT
           </NavLink>
-        </div>
-        <div className="nav-links-container">
+        </li>
+        <li>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "lactive-class" : "not-active-class"
+              isActive ? "active" : "not-active-class"
+            }
+            to="/login"
+          >
+            Login
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active" : "not-active-class"
+            }
+            to="/signup"
+          >
+            Singnup
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active" : "not-active-class"
             }
             to="/contact-us"
           >
             Contact Us
           </NavLink>
-        </div>
-        <div className="icon">
-          <i
-            class="corner big  inverted shopping cart icon"
-            onClick={mangeCartDropdwn}
-            style={{ cursor: "pointer" }}
-          >
-            {cartCount}
-          </i>
-        </div>
-        {isCartOpen && <CartDropdown />}
-      </div>
+        </li>
+        <li class="right">
+          <CartIcon />
+        </li>
+      </ul>
       <Header />
       <Outlet />
       <Footer />
