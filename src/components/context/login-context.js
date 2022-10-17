@@ -9,7 +9,6 @@ export const LoginContext = createContext({
 
 export const LoginProvider = ({ children }) => {
   const token = localStorage.getItem("auth_token");
-  console.log(token);
   const [isLoggedIn, setIsLoggedIn] = useState(token === null ? false : true);
   const [jwtToken, setJwtToken] = useState(token);
   const value = {

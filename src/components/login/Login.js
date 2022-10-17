@@ -63,7 +63,7 @@ export default function Login() {
           setIsLoader(false);
           if (response.ok) {
             setIsLoggedIn(true);
-            navigate("/home");
+            navigate("/store");
             return response.json();
           } else {
             return response.json().then((data) => {
