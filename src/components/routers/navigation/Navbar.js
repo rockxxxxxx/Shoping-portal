@@ -29,16 +29,18 @@ export default function Navbar() {
             HOME
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "active" : "not-active-class"
-            }
-            to="/store"
-          >
-            STORE
-          </NavLink>
-        </li>
+        {isLoggedIn && (
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "active" : "not-active-class"
+              }
+              to="/store"
+            >
+              STORE
+            </NavLink>
+          </li>
+        )}
         <li>
           <NavLink
             className={({ isActive }) =>

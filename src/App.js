@@ -9,21 +9,28 @@ import ProductDetails from "./components/product-details/ProductDetails";
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/Signup";
 import ChangePassword from "./components/login/ChangePassword";
+import { useContext } from "react";
+import { LoginContext } from "./components/context/login-context";
+import Error from "./components/error/Error";
 
 function App() {
+  const { isLoggedIn } = useContext(LoginContext);
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Navigate replace to="/home" />} />
-          <Route path="/store" element={<Store />} />
+          {isLoggedIn && <Route path="/store" element={<Store />} />}
           <Route path="/about" element={<About />} />
           <Route path="/contact-us" element={<Contact />} />
           <Route path="/productDetails" element={<ProductDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
+          {!isLoggedIn && <Route path="/login" element={<Login />} />}
+          {!isLoggedIn && <Route path="/signup" element={<SignUp />} />}
+          {!isLoggedIn && (
+            <Route path="/changepassword" element={<ChangePassword />} />
+          )}
+          <Route path="*" element={<Error />} />
         </Route>
       </Routes>
     </div>
