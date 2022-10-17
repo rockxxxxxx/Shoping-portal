@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import "./signup.css";
-import useFormValidation from "../hooks/useFormValidation";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import "./login.css";
+import useFormValidation from "../../hooks/useFormValidation";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../loader/Loader";
-import Alert from "../components/alert/Alert";
+import Alert from "../alert/Alert";
+import { LoginContext } from "../context/login-context";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length > 6;
 
-export default function SignUp() {
-  const [loader, setLoader] = useState(false);
-  const [serverError, setServerError] = useState({
-    message: "",
-    type: "",
-  });
+export default function Login() {
+  const [isLoader, setIsLoader] = useState(false);
+  const [alert, setAlert] = useState({ messgae: "", type: "" });
+  const { setIsLoggedIn, setJwtToken } = useContext(LoginContext);
+
+  const navigate = useNavigate();
+
   //For Email Input
   const {
     value: enteredEmail,
@@ -39,16 +41,16 @@ export default function SignUp() {
   };
 
   let formIsValid = false;
-  if (emailIsValid && passwordIsValid && !loader) {
+  if (emailIsValid && passwordIsValid) {
     formIsValid = true;
   }
 
   function onSumbitHandler(event) {
     event.preventDefault();
     if (formIsValid) {
-      setLoader(true);
+      setIsLoader(true);
       fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
         {
           method: "POST",
           body: JSON.stringify(formValue),
@@ -56,29 +58,33 @@ export default function SignUp() {
             "Content-Type": "application/json",
           },
         }
-      ).then((res) => {
-        setLoader(false);
-        if (res.ok) {
-          setServerError({
-            message: "You have successfully registered",
+      )
+        .then((response) => {
+          setIsLoader(false);
+          if (response.ok) {
+            setIsLoggedIn(true);
+            navigate("/home");
+            return response.json();
+          } else {
+            return response.json().then((data) => {
+              let errorMessage = "Email or password is wrong";
+              throw new Error(errorMessage);
+            });
+          }
+        })
+        .then((data) => {
+          setJwtToken(data.idToken);
+          setAlert({
+            messgae: data.idToken,
             type: "success",
           });
-        } else {
-          return res.json().then((data) => {
-            if (data.error.message === "EMAIL_EXISTS") {
-              setServerError({
-                message: "This email is already registerd",
-                type: "",
-              });
-            } else {
-              setServerError({
-                message: "Something went wrong! Please again later",
-                type: "",
-              });
-            }
+        })
+        .catch((err) => {
+          setAlert({
+            messgae: err.message,
+            type: "",
           });
-        }
-      });
+        });
     } else {
       console.log("not valid");
       emailBlurHandler();
@@ -88,10 +94,8 @@ export default function SignUp() {
 
   return (
     <>
-      {serverError.message && (
-        <Alert message={serverError.message} type={serverError.type} />
-      )}
-      <form className="signup" onSubmit={onSumbitHandler}>
+      {alert.messgae && <Alert message={alert.messgae} type={alert.type} />}
+      <form className="login" onSubmit={onSumbitHandler}>
         <div className="row">
           <div className="col-25">
             <label htmlFor="email">Email</label>
@@ -132,15 +136,15 @@ export default function SignUp() {
             )}
           </div>
         </div>
-        {!loader && <button>Submit</button>}
-        {loader && (
+        {!isLoader && <button>Submit</button>}
+        {isLoader && (
           <div className="loaderContainer">
             <Loader />
           </div>
         )}
       </form>
       <h3>
-        Already have an account! <Link to="/login">Login</Link>
+        Don't have an account! <Link to="/signup">Signup</Link>
       </h3>
     </>
   );

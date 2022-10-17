@@ -6,9 +6,9 @@ import About from "./components/about/About";
 import Store from "./components/store/Store";
 import Contact from "./components/contact/Contact";
 import ProductDetails from "./components/product-details/ProductDetails";
-import Login from "./login/Login";
-import SignUp from "./signup/Signup";
-import ChangePassword from "./login/ChangePassword";
+import Login from "./components/login/Login";
+import SignUp from "./components/signup/Signup";
+import ChangePassword from "./components/login/ChangePassword";
 
 function App() {
   return (

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import useFormValidation from "../hooks/useFormValidation";
+import useFormValidation from "../../hooks/useFormValidation";
 import Loader from "../loader/Loader";
-import Alert from "../components/alert/Alert";
-import { LoginContext } from "../components/context/login-context";
+import Alert from "../alert/Alert";
+import { LoginContext } from "../context/login-context";
 
 const passValidator = (value) => value.trim().length > 6;
 

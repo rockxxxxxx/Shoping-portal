@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import CartIcon from "./CartIcon";
@@ -9,9 +9,11 @@ import { LoginContext } from "../../context/login-context";
 
 export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn, setJwtToken } = useContext(LoginContext);
+  const navigate = useNavigate();
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setJwtToken("");
+    navigate("./login");
   };
   return (
     <>

@@ -1,19 +1,19 @@
-import React, { useContext, useState } from "react";
-import "./login.css";
-import useFormValidation from "../hooks/useFormValidation";
+import React, { useState } from "react";
+import "./signup.css";
+import useFormValidation from "../../hooks/useFormValidation";
 import { Link } from "react-router-dom";
 import Loader from "../loader/Loader";
-import Alert from "../components/alert/Alert";
-import { LoginContext } from "../components/context/login-context";
+import Alert from "../alert/Alert";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length > 6;
 
-export default function Login() {
-  const [isLoader, setIsLoader] = useState(false);
-  const [alert, setAlert] = useState({ messgae: "", type: "" });
-  const { setIsLoggedIn, setJwtToken } = useContext(LoginContext);
-
+export default function SignUp() {
+  const [loader, setLoader] = useState(false);
+  const [serverError, setServerError] = useState({
+    message: "",
+    type: "",
+  });
   //For Email Input
   const {
     value: enteredEmail,
@@ -39,16 +39,16 @@ export default function Login() {
   };
 
   let formIsValid = false;
-  if (emailIsValid && passwordIsValid) {
+  if (emailIsValid && passwordIsValid && !loader) {
     formIsValid = true;
   }
 
   function onSumbitHandler(event) {
     event.preventDefault();
     if (formIsValid) {
-      setIsLoader(true);
+      setLoader(true);
       fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAdsHvoBdeXk4gI7b5YT7gux_E3UuI7ofo",
         {
           method: "POST",
           body: JSON.stringify(formValue),
@@ -56,32 +56,29 @@ export default function Login() {
             "Content-Type": "application/json",
           },
         }
-      )
-        .then((response) => {
-          setIsLoader(false);
-          setIsLoggedIn(true);
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((data) => {
-              let errorMessage = "Email or password is wrong";
-              throw new Error(errorMessage);
-            });
-          }
-        })
-        .then((data) => {
-          setJwtToken(data.idToken);
-          setAlert({
-            messgae: data.idToken,
+      ).then((res) => {
+        setLoader(false);
+        if (res.ok) {
+          setServerError({
+            message: "You have successfully registered",
             type: "success",
           });
-        })
-        .catch((err) => {
-          setAlert({
-            messgae: err.message,
-            type: "",
+        } else {
+          return res.json().then((data) => {
+            if (data.error.message === "EMAIL_EXISTS") {
+              setServerError({
+                message: "This email is already registerd",
+                type: "",
+              });
+            } else {
+              setServerError({
+                message: "Something went wrong! Please again later",
+                type: "",
+              });
+            }
           });
-        });
+        }
+      });
     } else {
       console.log("not valid");
       emailBlurHandler();
@@ -91,8 +88,10 @@ export default function Login() {
 
   return (
     <>
-      {alert.messgae && <Alert message={alert.messgae} type={alert.type} />}
-      <form className="login" onSubmit={onSumbitHandler}>
+      {serverError.message && (
+        <Alert message={serverError.message} type={serverError.type} />
+      )}
+      <form className="signup" onSubmit={onSumbitHandler}>
         <div className="row">
           <div className="col-25">
             <label htmlFor="email">Email</label>
@@ -133,15 +132,15 @@ export default function Login() {
             )}
           </div>
         </div>
-        {!isLoader && <button>Submit</button>}
-        {isLoader && (
+        {!loader && <button>Submit</button>}
+        {loader && (
           <div className="loaderContainer">
             <Loader />
           </div>
         )}
       </form>
       <h3>
-        Don't have an account! <Link to="/signup">Signup</Link>
+        Already have an account! <Link to="/login">Login</Link>
       </h3>
     </>
   );
