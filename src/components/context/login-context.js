@@ -8,8 +8,10 @@ export const LoginContext = createContext({
 });
 
 export const LoginProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [jwtToken, setJwtToken] = useState("");
+  const token = localStorage.getItem("auth_token");
+  console.log(token);
+  const [isLoggedIn, setIsLoggedIn] = useState(token === null ? false : true);
+  const [jwtToken, setJwtToken] = useState(token);
   const value = {
     isLoggedIn,
     setIsLoggedIn,

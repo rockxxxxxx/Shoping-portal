@@ -14,6 +14,7 @@ export default function Navbar() {
     setIsLoggedIn(false);
     setJwtToken("");
     navigate("./login");
+    localStorage.removeItem("auth_token");
   };
   return (
     <>

@@ -74,6 +74,7 @@ export default function Login() {
         })
         .then((data) => {
           setJwtToken(data.idToken);
+          localStorage.setItem("auth_token", data.idToken);
           setAlert({
             messgae: data.idToken,
             type: "success",
