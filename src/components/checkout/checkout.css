@@ -1,0 +1,45 @@
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  margin: auto;
+}
+
+#customers td,
+#customers th {
+  border: 1px solid #ddd;
+  padding: 0px;
+}
+
+#customers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+  background-color: #ddd;
+}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04aa6d;
+  color: white;
+}
+.arrow {
+  cursor: pointer;
+}
+
+.quantity {
+  display: flex;
+  margin: auto;
+  padding-left: 15px;
+}
+
+.arrow {
+  cursor: pointer;
+}
+
+.value {
+  margin: 0 10px;
+}

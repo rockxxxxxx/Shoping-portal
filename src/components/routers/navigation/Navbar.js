@@ -6,10 +6,13 @@ import Header from "../../header/Header";
 import Footer from "../../footer/Footer";
 import CartIcon from "./CartIcon";
 import { LoginContext } from "../../context/login-context";
+import { CarContext } from "../../context/cart-context";
+import ErrorToaster from "../../error-toaster/ErrorToaster";
 
 export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn, setJwtToken, setUserEmail } =
     useContext(LoginContext);
+  const { setIsCartOpen } = useContext(CarContext);
   const navigate = useNavigate();
   const logoutHandler = () => {
     setIsLoggedIn(false);
@@ -17,6 +20,7 @@ export default function Navbar() {
     setUserEmail("");
     navigate("./login");
     localStorage.clear();
+    setIsCartOpen(false);
   };
   return (
     <>
@@ -56,7 +60,6 @@ export default function Navbar() {
 
         {!isLoggedIn && (
           <>
-            (
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -77,12 +80,10 @@ export default function Navbar() {
                 SIGN-UP
               </NavLink>
             </li>
-            )
           </>
         )}
         {isLoggedIn && (
           <>
-            (
             <li className="logout" onClick={logoutHandler}>
               LOGOUT
             </li>
@@ -96,7 +97,6 @@ export default function Navbar() {
                 CHANGE PASSWORD
               </NavLink>
             </li>
-            )
           </>
         )}
 
@@ -110,12 +110,15 @@ export default function Navbar() {
             CONTACT-US
           </NavLink>
         </li>
-        <li class="right">
-          <CartIcon />
-        </li>
+        {isLoggedIn && (
+          <li class="right">
+            <CartIcon />
+          </li>
+        )}
       </ul>
       <Header />
       <Outlet />
+      <ErrorToaster />
       <Footer />
     </>
   );

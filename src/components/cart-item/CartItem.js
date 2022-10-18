@@ -16,7 +16,7 @@ export default function CartItem({ cartItem, deleteItem }) {
             class="delete red icon"
             style={{ cursor: "pointer" }}
             id={_id}
-            onClick={() => removeFromCart(_id)}
+            onClick={() => removeFromCart(_id, id)}
           ></i>
         </span>
         <span className="price">

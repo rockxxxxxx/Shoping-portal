@@ -12,6 +12,7 @@ import ChangePassword from "./components/login/ChangePassword";
 import { useContext } from "react";
 import { LoginContext } from "./components/context/login-context";
 import Error from "./components/error/Error";
+import Checkout from "./components/checkout/Checkout";
 
 function App() {
   const { isLoggedIn } = useContext(LoginContext);
@@ -30,6 +31,7 @@ function App() {
           {isLoggedIn && (
             <Route path="/changepassword" element={<ChangePassword />} />
           )}
+          {isLoggedIn && <Route path="/checkout" element={<Checkout />} />}
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
