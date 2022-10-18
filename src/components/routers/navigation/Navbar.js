@@ -8,13 +8,15 @@ import CartIcon from "./CartIcon";
 import { LoginContext } from "../../context/login-context";
 
 export default function Navbar() {
-  const { isLoggedIn, setIsLoggedIn, setJwtToken } = useContext(LoginContext);
+  const { isLoggedIn, setIsLoggedIn, setJwtToken, setUserEmail } =
+    useContext(LoginContext);
   const navigate = useNavigate();
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setJwtToken("");
+    setUserEmail("");
     navigate("./login");
-    localStorage.removeItem("auth_token");
+    localStorage.clear();
   };
   return (
     <>

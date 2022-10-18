@@ -27,7 +27,7 @@ function App() {
           <Route path="/productDetails" element={<ProductDetails />} />
           {!isLoggedIn && <Route path="/login" element={<Login />} />}
           {!isLoggedIn && <Route path="/signup" element={<SignUp />} />}
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <Route path="/changepassword" element={<ChangePassword />} />
           )}
           <Route path="*" element={<Error />} />

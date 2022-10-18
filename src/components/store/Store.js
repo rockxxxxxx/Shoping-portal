@@ -37,9 +37,7 @@ export default function Store() {
   ];
   return (
     <div>
-       
-      <Directory categories={productsArr } />
-      
+      <Directory categories={productsArr} />
     </div>
   );
 }

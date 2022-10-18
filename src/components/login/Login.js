@@ -12,7 +12,7 @@ const passValidator = (value) => value.trim().length > 6;
 export default function Login() {
   const [isLoader, setIsLoader] = useState(false);
   const [alert, setAlert] = useState({ messgae: "", type: "" });
-  const { setIsLoggedIn, setJwtToken } = useContext(LoginContext);
+  const { setIsLoggedIn, setJwtToken, setUserEmail } = useContext(LoginContext);
 
   const navigate = useNavigate();
 
@@ -74,7 +74,9 @@ export default function Login() {
         })
         .then((data) => {
           setJwtToken(data.idToken);
+          setUserEmail(data.email);
           localStorage.setItem("auth_token", data.idToken);
+          localStorage.setItem("email", data.email);
           setAlert({
             messgae: data.idToken,
             type: "success",
