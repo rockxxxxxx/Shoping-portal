@@ -18,11 +18,18 @@ export default function useFormValidation(valueIsValid) {
     setIsTouched(true);
   };
 
+  const reset = () => {
+    setEnteredValue("");
+    setIsTouched(false);
+  };
+
   return {
     value: enteredValue,
     isValueValid: isValueValid,
     hasError,
     inputChangeHandler,
     blurHandler,
+    setEnteredValue,
+    reset,
   };
 }

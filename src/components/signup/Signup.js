@@ -21,6 +21,7 @@ export default function SignUp() {
     hasError: emailInputHasError,
     inputChangeHandler: emailChangeHandler,
     blurHandler: emailBlurHandler,
+    reset: emailReset,
   } = useFormValidation(emailValidator);
 
   //For Password
@@ -30,6 +31,7 @@ export default function SignUp() {
     hasError: passwordInputHasError,
     inputChangeHandler: passwordChangeHandler,
     blurHandler: passwordBlurHandler,
+    reset: passwordReset,
   } = useFormValidation(passValidator);
 
   const formValue = {
@@ -63,6 +65,8 @@ export default function SignUp() {
             message: "You have successfully registered",
             type: "success",
           });
+          emailReset();
+          passwordReset();
         } else {
           return res.json().then((data) => {
             if (data.error.message === "EMAIL_EXISTS") {

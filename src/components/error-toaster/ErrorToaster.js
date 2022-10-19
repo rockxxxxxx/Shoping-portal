@@ -4,11 +4,11 @@ import "./ErrorToaster.css";
 
 export default function ErrorToaster() {
   const { isMessage, isToaster, setIsToaster } = useContext(ErrorContext);
-  //   useEffect(() => {
-  //     setTimeout(() => {
-  //       setIsToaster(false);
-  //     }, 800);
-  //   }, [isToaster]);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsToaster(false);
+    }, 800);
+  }, [isToaster, setIsToaster]);
   return (
     <>
       {isToaster && (

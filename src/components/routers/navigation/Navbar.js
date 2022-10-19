@@ -24,7 +24,7 @@ export default function Navbar() {
   };
   return (
     <>
-      <ul class="topnav">
+      <ul className="topnav">
         <li>
           <NavLink
             className={({ isActive }) =>
@@ -111,7 +111,7 @@ export default function Navbar() {
           </NavLink>
         </li>
         {isLoggedIn && (
-          <li class="right">
+          <li className="right">
             <CartIcon />
           </li>
         )}

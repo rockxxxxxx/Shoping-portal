@@ -3,12 +3,9 @@ import "./checkout.css";
 import { CarContext } from "../context/cart-context";
 import CheckOutItem from "../checkedout-item/CheckOutItem";
 
-export default function () {
-  const { cartItems, addToCart, cartTotal } = useContext(CarContext);
-  const addTocartHandler = (item) => {
-    addToCart(item);
-    console.log(item);
-  };
+export default function Checkout() {
+  const { cartItems, cartTotal } = useContext(CarContext);
+
   return (
     <>
       <table id="customers">

@@ -10,7 +10,7 @@ export default function CartItem({ cartItem, deleteItem }) {
     <div className="cart-item-container">
       <img src={imageUrl} alt={`${title}`} />
       <div className="item-details">
-        <span className="name" style={{ display: "inlin-block" }}>
+        <span className="name" style={{ display: "inline-block" }}>
           {`${title} `}{" "}
           <i
             class="delete red icon"

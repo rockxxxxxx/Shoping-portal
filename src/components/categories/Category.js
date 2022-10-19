@@ -3,8 +3,8 @@ import { CarContext } from "../context/cart-context";
 import "./category.css";
 
 export default function Category({ category }) {
-  const { imageUrl, title, price, key } = category;
-  const { addToCart } = useContext(CarContext);
+  const { imageUrl, title, price, id } = category;
+  const { addToCart, cartItems } = useContext(CarContext);
 
   const addTocartHandler = () => {
     addToCart(category);
@@ -12,7 +12,7 @@ export default function Category({ category }) {
   };
 
   return (
-    <div className="card" key={key}>
+    <div className="card" key={id}>
       <img src={imageUrl} alt="Denim Jeans" style={{ width: "100%" }} />
 
       <div className="category-container">
@@ -20,7 +20,21 @@ export default function Category({ category }) {
           <h2>{title}</h2>
           <p className="price">${price}</p>
           <p>
-            <button onClick={addTocartHandler}>Add to Cart</button>
+            {!cartItems.find((e) => e.id === id) && (
+              <button onClick={addTocartHandler}>Add to cart</button>
+            )}
+            {cartItems.find((e) => e.id === id) && (
+              <button
+                style={{
+                  backgroundColor: "white",
+                  pointerEvents: "none",
+                  cursor: "not-allowed",
+                  border: "1px black",
+                }}
+              >
+                <i class="check green icon">Added</i>
+              </button>
+            )}
           </p>
         </div>
       </div>

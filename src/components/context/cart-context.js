@@ -5,7 +5,7 @@ import { ErrorContext } from "./error-context";
 
 const chars = { "@": "", ".": "" };
 axios.defaults.baseURL =
-  "https://crudcrud.com/api/301e70bf4b2a45c68d958f5cd90e9162";
+  "https://crudcrud.com/api/010fe921065c4120ab72e760768d248a";
 
 export const CarContext = createContext({
   isCartOpen: false,
@@ -16,6 +16,8 @@ export const CarContext = createContext({
   cartCount: 0,
   decreaseFromCart: () => {},
   cartTotal: 0,
+  addingLoader: [],
+  setAddingLoader: () => {},
 });
 
 export const CartProvider = ({ children }) => {

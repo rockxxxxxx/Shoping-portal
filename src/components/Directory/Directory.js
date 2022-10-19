@@ -4,7 +4,7 @@ import "./directory.css";
 
 export default function Directory({ categories }) {
   return (
-    <div class="wrapper">
+    <div className="wrapper">
       {categories.map((category) => {
         return (
           <div>
