@@ -95,6 +95,8 @@ export default function SignUp() {
       {serverError.message && (
         <Alert message={serverError.message} type={serverError.type} />
       )}
+      <h1>Sign Up to continue shopping with us</h1>
+      <hr />
       <form className="signup" onSubmit={onSumbitHandler}>
         <div className="row">
           <div className="col-25">

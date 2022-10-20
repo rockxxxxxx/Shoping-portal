@@ -5,7 +5,7 @@ import { ErrorContext } from "./error-context";
 
 const chars = { "@": "", ".": "" };
 axios.defaults.baseURL =
-  "https://crudcrud.com/api/010fe921065c4120ab72e760768d248a";
+  "https://cloth-shopping-portal-default-rtdb.firebaseio.com";
 
 export const CarContext = createContext({
   isCartOpen: false,
@@ -19,6 +19,19 @@ export const CarContext = createContext({
   addingLoader: [],
   setAddingLoader: () => {},
 });
+let loadedData = [];
+function pushData(data) {
+  for (const key in data) {
+    loadedData.push({
+      fireBaseId: key,
+      id: data[key].id,
+      title: data[key].title,
+      imageUrl: data[key].imageUrl,
+      price: data[key].price,
+      quantity: data[key].quantity,
+    });
+  }
+}
 
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -34,7 +47,7 @@ export const CartProvider = ({ children }) => {
   }
 
   const removeFromCart = async (_id, id) => {
-    await axios.delete(`/carts${email}/${_id}`);
+    await axios.delete(`/carts${email}/${_id}.json`);
     const updateItems = cartItems.filter((item) => item.id !== id);
     setCartItems(updateItems);
     setIsMessage("Item deleted successfully");
@@ -42,20 +55,18 @@ export const CartProvider = ({ children }) => {
   };
 
   const decreaseFromCart = async (item) => {
-    const { id, imageUrl, title, quantity, price } = item;
-    if (item.quantity === 1) {
-      removeFromCart(item._id, item.id);
+    const { quantity, id, fireBaseId } = item;
+    if (quantity === 1) {
+      removeFromCart(fireBaseId, id);
     } else {
       try {
-        await axios.put(`carts${email}/${item._id}`, {
-          id,
-          imageUrl,
-          title,
+        await axios.patch(`carts${email}/${fireBaseId}.json`, {
           quantity: quantity - 1,
-          price,
         });
-        const getRequest = await axios.get(`/carts${email}`);
-        setCartItems(getRequest.data);
+        const getRequest = await axios.get(`/carts${email}.json`);
+        loadedData = [];
+        pushData(getRequest.data);
+        setCartItems(loadedData);
         setIsMessage("Quantity reduced successfully");
         setIsToaster(true);
       } catch (error) {
@@ -71,7 +82,7 @@ export const CartProvider = ({ children }) => {
       cartItems.map((item) => {
         if (item.id === product.id) {
           productUpdate.quantity = item.quantity + 1;
-          productUpdate.p_id = item._id;
+          productUpdate.p_id = item.fireBaseId;
         }
         return { productUpdate };
       });
@@ -79,18 +90,19 @@ export const CartProvider = ({ children }) => {
 
     try {
       if (productUpdate.p_id === "") {
-        await axios.post(`/carts${email}`, {
+        await axios.post(`/carts${email}.json`, {
           ...product,
           quantity: productUpdate.quantity,
         });
       } else {
-        await axios.put(`/carts${email}/${productUpdate.p_id}`, {
-          ...product,
+        await axios.patch(`/carts${email}/${productUpdate.p_id}.json`, {
           quantity: productUpdate.quantity,
         });
       }
-      const getRequest = await axios.get(`/carts${email}`);
-      setCartItems(getRequest.data);
+      const getRequest = await axios.get(`/carts${email}.json`);
+      loadedData = [];
+      pushData(getRequest.data);
+      setCartItems(loadedData);
       setIsMessage("Item added to cart successfully");
       setIsToaster(true);
     } catch (error) {
@@ -102,8 +114,10 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getRequest = await axios.get(`/carts${email}`);
-        setCartItems(getRequest.data);
+        const getRequest = await axios.get(`/carts${email}.json`);
+        loadedData = [];
+        pushData(getRequest.data);
+        setCartItems(loadedData);
       } catch (error) {
         console.log("Something went wrong");
       }

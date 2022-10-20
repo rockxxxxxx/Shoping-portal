@@ -98,6 +98,8 @@ export default function Login() {
   return (
     <>
       {alert.messgae && <Alert message={alert.messgae} type={alert.type} />}
+      <h1>Login to continue shopping with us</h1>
+      <hr />
       <form className="login" onSubmit={onSumbitHandler}>
         <div className="row">
           <div className="col-25">

@@ -3,7 +3,7 @@ import { CarContext } from "../context/cart-context";
 import "./cart-item.css";
 
 export default function CartItem({ cartItem, deleteItem }) {
-  const { title, imageUrl, price, quantity, id, _id } = cartItem;
+  const { title, imageUrl, price, quantity, id, fireBaseId } = cartItem;
   const { removeFromCart } = useContext(CarContext);
 
   return (
@@ -15,8 +15,8 @@ export default function CartItem({ cartItem, deleteItem }) {
           <i
             class="delete red icon"
             style={{ cursor: "pointer" }}
-            id={_id}
-            onClick={() => removeFromCart(_id, id)}
+            id={fireBaseId}
+            onClick={() => removeFromCart(fireBaseId, id)}
           ></i>
         </span>
         <span className="price">

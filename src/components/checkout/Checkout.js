@@ -9,16 +9,18 @@ export default function Checkout() {
   return (
     <>
       <table id="customers">
-        <tr>
-          <th>Product</th>
-          <th>Name</th>
-          <th>Quantity </th>
-          <th>Price</th>
-        </tr>
+        <tbody>
+          <tr>
+            <th>Product</th>
+            <th>Name</th>
+            <th>Quantity </th>
+            <th>Price</th>
+          </tr>
 
-        {cartItems.map((cartItem) => (
-          <CheckOutItem key={cartItem.id} cartItem={cartItem} />
-        ))}
+          {cartItems.map((cartItem) => (
+            <CheckOutItem key={cartItem.id} cartItem={cartItem} />
+          ))}
+        </tbody>
       </table>
       <h1
         style={{
